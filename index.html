@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.css" integrity="sha512-Fr+AkDti9dyqOGRKgIus8VzYD6Fg//6oRx+SNrQlK6ZKRSFVYh2YEbBUBroX7hFm+QYeFXkgfsVfILIKgL/6Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta property="og:title" content="SubliminalCode">
+  <meta property="og:description" content="Code Your Way">
+  <meta property="og:image" content="https://cdn.discordapp.com/attachments/1004438276318429184/1200025461254799421/Y5wVd1706183376.png?ex=65c4adcd&is=65b238cd&hm=712f74c1678a3d32d7dba36c946cfdb6221e49aa8ab2a8e585db7365bcaecc3f&">
+  <meta property="og:image:width" content="640">
+  <meta property="og:image:height" content="480">
+  <meta property="og:url" content="https://www.subliminalcode.org">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SubliminalCode - Code Your Way.</title>
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      display: flex;
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+
+    #editor-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    #editor {
+      flex: 1;
+      background-color: #2d2d2d;
+      color: #ffffff;
+      font-size: 14px; /* Adjust as needed */
+    }
+
+    #file-selector {
+      width: 200px;
+      padding: 10px;
+      background-color: #333333;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 5px;
+      margin: 10px;
+    }
+
+    #file-selector label {
+      margin-bottom: 5px;
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    #file-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    .file-item {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #444444;
+      margin-bottom: 5px;
+      border-radius: 3px;
+    }
+
+    .file-item:hover {
+      background-color: #555555;
+    }
+
+    .remove-button {
+      background-color: #ff4444;
+      color: #ffffff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    #credits {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: left;
+      margin-bottom: 20px; /* Adjust as needed */
+      color: #888888;
+    }
+
+    #export-button {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    #export-button button {
+      background-color: #333333;
+      color: #ffffff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #export-button button:hover {
+      background-color: #555555;
+    }
+
+    #file-type-selector {
+      margin-top: 10px;
+    }
+
+    #export-file-type {
+      padding: 5px;
+      border-radius: 3px;
+      background-color: #333333;
+      color: #ffffff;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="editor-container">
+    <div id="editor"></div>
+  </div>
+
+  <div id="file-selector">
+    <label>Files</label>
+    <label for="file-input">Upload File</label>
+    <input type="file" id="file-input" accept=".txt, .html, .js, .css, .py, .json, .scss, .ts, .rs, .sql, .bat, .swift, .java, .lua, .luau, .cpp, .cs, .sh, .fs, .go, .php, .ruby, .perl, .vb, .scala, .kotlin, .dart" />
+
+    <ul id="file-list"></ul>
+  </div>
+
+  <div id="file-type-selector">
+    <label for="export-file-type">Export File Type:</label>
+    <select id="export-file-type">
+      <option value="txt">Text (.txt)</option>
+      <option value="html">HTML (.html)</option>
+      <option value="js">JavaScript (.js)</option>
+      <option value="css">CSS (.css)</option>
+      <option value="py">Python (.py)</option>
+      <option value="json">JSON (.json)</option>
+      <option value="scss">SCSS (.scss)</option>
+      <option value="ts">TypeScript (.ts)</option>
+      <option value="rust">Rust (.rs)</option>
+      <option value="sql">SQL (.sql)</option>
+      <option value="batch">Batch (.bat)</option>
+      <option value="swift">Swift (.swift)</option>
+      <option value="java">Java (.java)</option>
+      <option value="lua">Lua (.lua)</option>
+      <option value="luau">Luau (.luau)</option>
+      <option value="c++">C++ (.cpp)</option>
+      <option value="C#">C# (.cs)</option>
+      <option value="shell">PowerShell (.sh)</option>
+      <option value="F#">F# (.fs)</option>
+      <option value="go">GoLang (.go)</option>
+      <option value="php">PHP (.php)</option>
+      <option value="ruby">Ruby (.ruby)</option>
+      <option value="perl">Perl (.perl)</option>
+      <option value="vb">VBScript (.vb)</option>
+      <option value="scala">Scala (.scala)</option>
+      <option value="kotlin">Kotlin (.kotlin)</option>
+      <option value="dart">Dart (.dart)</option>
+    </select>
+  </div>
+
+  <div id="credits">
+    <p>SubliminalCode - Made by SubliminalBypass || Inspired by headlined || https://www.github.com/headlined || ©Copyright 2024, All rights reserved.</p>
+  </div>
+
+  <div id="export-button">
+    <button onclick="exportCode()">Export Code</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/openai@0.26.0/dist/openai.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+  <script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/javascript");
+
+    // Enable autocompletion using Codex
+    ace.require("ace/ext/language_tools");
+    editor.setOptions({
+      enableBasicAutocompletion: true,
+      enableSnippets: true,
+      enableLiveAutocompletion: true,
+    });
+
+    editor.getSession().on("change", function (e) {
+      // Trigger code suggestions using Codex
+      const code = editor.getValue();
+      openai.complete({
+        prompt: code,
+        max_tokens: 100,
+      })
+      .then(response => {
+        const suggestions = response.data.choices[0].text.trim();
+        // Apply suggestions to the editor
+        editor.getSession().setValue(suggestions);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    });
+  </script>
+</body>
+
+</html>
