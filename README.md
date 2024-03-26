@@ -5,3 +5,5 @@ SubliminalCode is a web coding application that allows you to code and execute H
 This was a creation made for the technology fair in my state (We go to state in April, we got 1st place in regionals)
 
 After this final update I will push out soon, there will be no more commits to SubliminalCode.
+
+(Also, instead of SubliminalCode being full HTML, it will be HTML, CSS, and JS.)
